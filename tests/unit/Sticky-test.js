@@ -169,6 +169,37 @@ describe('Sticky', function () {
         sinon.assert.calledWith(callback.secondCall, {status: Sticky.STATUS_ORIGINAL});
     });
 
+    it('should allow style override (short Sticky)', function () {
+        sticky = jsx.renderComponent(Sticky, {
+            style: {
+                display: 'inline'
+            }
+        });
+        outer = ReactDOM.findDOMNode(sticky);
+        inner = outer.firstChild;
+
+        expect(inner._style.display).to.equal('inline');
+    });
+
+    it('should allow sticky style override (short Sticky)', function () {
+        sticky = jsx.renderComponent(Sticky, {
+            style: {
+                display: 'inline-block'
+            },
+            stickyStyle: {
+                display: 'block'
+            }
+        });
+        outer = ReactDOM.findDOMNode(sticky);
+        inner = outer.firstChild;
+
+        expect(inner._style.display).to.equal('inline-block');
+
+        window.scrollTo(0, 10);
+
+        expect(inner._style.display).to.equal('block');
+    });
+
     it('should work as expected (long Sticky)', function () {
         STICKY_HEIGHT = 1200;
         sticky = jsx.renderComponent(Sticky);
